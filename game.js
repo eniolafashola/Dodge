@@ -17,7 +17,6 @@ let center = document.getElementById("center");
 
 
 if(typeof(Storage)!=="undefined"){
-	localStorage.clear();
 	 if(localStorage.points) {
          localStore = JSON.parse(localStorage.getItem("points") );
          
