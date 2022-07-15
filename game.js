@@ -8,6 +8,7 @@ let optionC;
 let pointTotal;
 let highScore;
 let localStore;
+let info;
 let up = document.getElementById("up");
 let down = document.getElementById("down");
 let left = document.getElementById("left");
@@ -35,6 +36,7 @@ if(typeof(Storage)!=="undefined"){
 startGame = function() {
 	gamePiece = new component(95, 30, "airship.png", 10, 120, "image");
 	gameScore = new component("20px", "Consolas", "black", 210, 100, "text");
+	info = new component("25px", "Consolas", "pink", 40, 80, "text");
     points = new component("20px", "Consolas", "white", 70, 28, "text");
     score = new component("20px", "Consolas", "white", 270, 28, "text");
     paused = new component(105, 70, "play.png", 180, 90, "image");
@@ -43,6 +45,8 @@ startGame = function() {
     optionC = new component("35px", "Cursive", "black", 193, 248, "text");
     gameField.loadIndex();
 }
+
+
 
 
 startControl = function() {
@@ -441,6 +445,11 @@ function updateField() {
     score.update();
 	gamePiece.newPos();
 	gamePiece.update();
+
+	if(pointTotal < 15) {
+		info.text = "Hold center button to speed up";
+		info.update();
+	};
 }
 
 function everyinterval(n) {
