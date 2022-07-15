@@ -158,3 +158,11 @@ p {
   background-image: linear-gradient(120deg , lightblue, blue);
   padding-top: 5%;
 }
+
+@media screen and (max-device-width: 480px){
+    body{
+        -webkit-text-size-adjust:none;
+        font-family:Helvetica, Arial, Verdana, sans-serif;
+        padding:5px;
+    }
+}s

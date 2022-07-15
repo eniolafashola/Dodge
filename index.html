@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<?php
+    $browser = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
+      if ($browser == true){
+      $browser = 'iphone';
+     }
+    ?>
+    <?php if($browser == 'iphone'){ ?>
+     <meta name="viewport"
+     content="width=device-width,
+     minimum-scale=1.0, maximum-scale=1.0" />
+    <?php } ?>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<title>Game</title>
-	<link rel="stylesheet" type="text/css" href="game.css">
+	<link rel="stylesheet" href="game.css">
 </head>
 <body id="body"  onmousedown="return false" onselectstart="return false" onload="startGame()">
 	<section id="game">
