@@ -1,18 +1,19 @@
-var gamePiece;
-var gameObstacle = [];
-var gameScore;
-var paused;
-var optionA;
-var optionB;
-var optionC;
-var pointTotal;
-var highScore;
-var localStore;
+let gamePiece;
+let gameObstacle = [];
+let gameScore;
+let paused;
+let optionA;
+let optionB;
+let optionC;
+let pointTotal;
+let highScore;
+let localStore;
 let up = document.getElementById("up");
 let down = document.getElementById("down");
 let left = document.getElementById("left");
 let right = document.getElementById("right");
 let center = document.getElementById("center");
+
 
 if(typeof(Storage)!=="undefined"){
 	 if(localStorage.points) {
@@ -37,11 +38,12 @@ startGame = function() {
     points = new component("20px", "Consolas", "white", 70, 28, "text");
     score = new component("20px", "Consolas", "white", 270, 28, "text");
     paused = new component(105, 70, "play.png", 180, 90, "image");
-    optionA = new component("35px", "Cursive", "white", 133, 152, "text");
-    optionB = new component("35px", "Cursive", "white", 173, 200, "text");
-    optionC = new component("35px", "Cursive", "white", 193, 248, "text");
+    optionA = new component("35px", "Cursive", "black", 133, 152, "text");
+    optionB = new component("35px", "Cursive", "black", 173, 200, "text");
+    optionC = new component("35px", "Cursive", "black", 193, 248, "text");
     gameField.loadIndex();
 }
+
 
 startControl = function() {
     moveUp = function() {
@@ -70,7 +72,6 @@ startControl = function() {
     clearMove = function() {
 	  gamePiece.speedX = 0;
 	  gamePiece.speedY = 0;
-	  
 	  clearInterval(this.interval);
 	  clearInterval(this.runInterval);
     };
@@ -81,7 +82,7 @@ startControl = function() {
       endControl();
       paused.newPos();
       paused.update();
-       center.onclick = resume;
+      center.onclick = resume;
     };
   
     resume = function() {
@@ -91,11 +92,12 @@ startControl = function() {
 		  setInterval(updateField, 20);
 	   startControl();
 	   center.onclick = " ";
-    };
+	   console.clear();
+   };
 }
 
 endControl = function() {
-  	var clear = clearMove();
+  	let clear = clearMove();
   	moveUp = clear;
       moveDown = clear;
       moveLeft = clear;
@@ -103,7 +105,7 @@ endControl = function() {
       speedUp = clear;
 };
 
-var gameField = {
+const gameField = {
 	canvas :
 	document.createElement("canvas"),
 	
@@ -122,8 +124,8 @@ var gameField = {
 	start : function() {
 		console.clear();
 		endClick();
-		startControl();
-		center.ondblclick = pause;
+		startControl(gamePiece);
+		center.ondblclick = pause;        
 		this.runNo = 0;
 		this.runInterval =
 		  setInterval(run, 2500);
@@ -134,7 +136,7 @@ var gameField = {
 	finish: function() {
 		gameField.canvas.style.backgroundImage =
  "url(' '), url('gameover.png '), url('Gem Orange.png'), url('Gem Green.png '), url(' ')";
-       navigator.vibrate(50);
+       navigator.vibrate(80);
        gamePiece.y -= 7;
 	   gamePiece.x -= 3;
 	   gamePiece.explode();
@@ -147,11 +149,23 @@ var gameField = {
       },
       
     toggleFullScreen : function() {
-        var game = document.getElementById("game");
+        const game = document.getElementById("game");
         if (!document.fullscreenElement){
-           game.requestFullscreen();
+           game.requestFullscreen();           
+           this.clearOption();
+           optionA.choose();
+           optionB.text = "Exit Screen";
+           optionB.unChoose();         
+           showOptions();
+           
           } else {
            document.exitFullscreen();
+           this.clearOption();
+           optionA.choose();
+           optionB.text = "Full Screen";
+           optionB.unChoose();
+           showOptions();
+           
          };
     },
 	
@@ -161,7 +175,7 @@ var gameField = {
 		gamePiece.image.src = "airship.png";
 		gamePiece.width = 95;
 		gamePiece.height = 30;
-		gameObstacle= [ ];
+		gameObstacle= [];
 		localStore = JSON.parse(localStorage.getItem("points") );
 		highScore = JSON.parse(localStorage.getItem("score") );
 	},
@@ -171,7 +185,7 @@ var gameField = {
 	},
 	
 	clearOption : function() {
-		this.context.clearRect(130, 115, 195, 137);
+		this.context.clearRect(130, 115, 325, 137);
 	},
 	
 	stop : function() {
@@ -221,30 +235,30 @@ function component(width, height, color, x, y, type) {
 	
 	this.choose = function() {
 		this.width = "50px";
-		this.color = "black";
+		this.color = "white";
 	}
 	
 	this.unChoose = function() {
 		this.width = "35px";
-		this.color = "white";
+		this.color = "black";
 	}
-	
+
 	this.newPos = function() {
 		this.x += this.speedX;
 		this.y += this.speedY;
 	}
-
+	
 	this.crashWith =
 	function(otherobj) {
-		var myLeft = this.x;
-		var myRight = this.x + (this.width) -2;
-		var myTop = this.y + 5;
-		var myBottom = this.y + (this.height);
-		var otherLeft = otherobj.x;
-		var otherRight = otherobj.x + (otherobj.width);
-		var otherTop = otherobj.y;
-		var otherBottom = otherobj.y + (otherobj.height);
-		var crash = true;
+		let myLeft = this.x;
+		let myRight = this.x + (this.width) -2;
+		let myTop = this.y + 5;
+		let myBottom = this.y + (this.height);
+		let otherLeft = otherobj.x;
+		let otherRight = otherobj.x + (otherobj.width);
+		let otherTop = otherobj.y;
+		let otherBottom = otherobj.y + (otherobj.height);
+		let crash = true;
 
 		if ((myBottom < otherTop) ||
 		 (myTop > otherBottom) ||
@@ -258,83 +272,62 @@ function component(width, height, color, x, y, type) {
 
 function hoverUp() {
 		if(optionA.width == "50px") {
-			gameField.clear();
-			points.update();
-			score.update();
+			gameField.clearOption();
 		    optionC.choose();
 		    optionA.unChoose();
-		    optionA.update();
-		    optionB.update();
-	        optionC.update();
+		    showOptions();
 	     } else if(optionC.width == "50px") {
-		    gameField.clear();
-			points.update();
-			score.update();
+		    gameField.clearOption();
 		    optionB.choose();
 	        optionC.unChoose();
-	        optionA.update();
-	        optionB.update();
-	        optionC.update();
+	        showOptions();
 	     } else {
-		    gameField.clear();
-			points.update();
-			score.update();
+		    gameField.clearOption();
 		    optionA.choose();
 	        optionB.unChoose();
-	        optionA.update();
-	        optionB.update();
-	        optionC.update();
+	        showOptions();
 	     };
 }
 
 function hoverDown() {
 		if(optionA.width == "50px") {
-			gameField.clear();
-			points.update(); score.update();
+			gameField.clearOption();
 		    optionB.choose();
 		    optionA.unChoose();
-		    optionA.update();
-		    optionB.update();
-	        optionC.update();
+		    showOptions();
 	     } else if(optionB.width == "50px") {
-		    gameField.clear();
-			points.update(); score.update();
+		    gameField.clearOption();
 		    optionC.choose();
 	        optionB.unChoose();
-	        optionA.update();
-	        optionB.update();
-	        optionC.update();
+	        showOptions();
 	     } else {
-		    gameField.clear();
-			points.update(); score.update();
+		    gameField.clearOption();
 		    optionA.choose();
 	        optionC.unChoose();
-	        optionA.update();
-	        optionB.update();
-	        optionC.update();
+	        showOptions();
 	     };
 }
 
 function select() {
    	if(optionA.width == "50px") {
-   	if(optionA.text == "Restart") {
-   	gameField.reset();
-   	};
-        gameField.canvas.style.backgroundImage = "url(' '), url(' '), url('Gem Orange.png'), url('Gem Green.png '), url(' ')";
+	   	if(optionA.text == "Restart") {
+	   	gameField.reset();
+	   	};
+	    gameField.canvas.style.backgroundImage = "url(' '), url(' '), url('Gem Orange.png'), url('Gem Green.png '), url(' ')";
 	    gameField.start();
-      } else if(optionB.width == "50px") {
+    } else if(optionB.width == "50px") {
         gameField.toggleFullScreen();
       } else {
-      if(optionC.text == "Exit") {
-      	window.close();
-        } else {
-        	gameField.canvas.style.backgroundImage = "url(' '), url(' '), url('Gem Orange.png'), url(' Gem Green.png'), url('')";
-        	gameField.reset();
-        	gameField.loadIndex();
-            gameField.clearOption();
-            optionC.unChoose();
-            showOptions();
-        };
+	  if(optionC.text == "Exit") {
+	  	window.close();
+	    } else {
+	    	gameField.canvas.style.backgroundImage = "url(' '), url(' '), url('Gem Orange.png'), url(' Gem Green.png'), url('')";
+	    	gameField.reset();
+	    	gameField.loadIndex();
+	        gameField.clearOption();
+	        optionC.unChoose();
+	        showOptions();
+	    };
       }
 }
 
@@ -360,13 +353,17 @@ function updateIndex() {
 	score.text = highScore;
 	score.update();
 	optionA.text = "Play Game";
+	if (!document.fullscreenElement) {
+	    optionB.text = "Full Screen";
+	} else {
+		optionB.text = "Exit Screen";
+	}
 	optionC.text = "Exit";
-	optionB.text = "Toggle Screen";
+	optionA.choose();
 	showOptions();
 }
 
 function showOptions() {
-	optionA.choose();
 	optionA.update();
 	optionB.update();
 	optionC.update();
@@ -382,29 +379,27 @@ function updatePoints() {
 
 function updateFinish() {
 	gameField.stop();
-	function oya() {
+	setTimeout(() => {
 		gameField.clear();
 		gameScore.text = "+ " + gameField.runNo;
 		gameScore.update();
-		points.update(); score.update();
+		points.update();
+        score.update();
 		gameField.canvas.style.backgroundImage = "url('spaceshipexplode.gif'), url(''), url('Gem Orange.png'), url(' Gem Green.png'), url('')";
 	    optionA.text = "Restart";
-	    optionB.text = "Toggle Screen";
 	    optionC.text = "Home";
 	    showOptions();
 	    setTimeout(startClick, 150); 
-	};
-	setTimeout(oya, 440);
+	}, 440);
 }
 
 function run() {
 	gameField.runNo += 1;
 }
-		
 	   
 
 function updateField() {
-	var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+	let x, height, gap, minHeight, maxHeight, minGap, maxGap;
 	for (i = 0; i <
 		gameObstacle.length; i += 1) {
 		if (gamePiece.crashWith(gameObstacle[i])) {
@@ -433,6 +428,8 @@ function updateField() {
 		gameObstacle[i].newPos();
 		gameObstacle[i].update();
 	}
+	
+	
 	
 	if(gameField.runNo > highScore) {
 		score.text = gameField.runNo;
