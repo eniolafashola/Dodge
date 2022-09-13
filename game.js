@@ -322,8 +322,8 @@ function select() {
     } else if(optionB.width == "50px") {
         gameField.toggleFullScreen();
       } else {
-	  if(optionC.text == "Exit") {
-	  	window.close();
+	  if(optionC.text == "GitHub") {
+	  	location.href = 'https://github.com/eniolafashola';
 	    } else {
 	    	gameField.canvas.style.backgroundImage = "url(' '), url(' '), url('Gem Orange.png'), url(' Gem Green.png'), url('')";
 	    	gameField.reset();
@@ -362,7 +362,7 @@ function updateIndex() {
 	} else {
 		optionB.text = "Exit Screen";
 	}
-	optionC.text = "Exit";
+	optionC.text = "GitHub";
 	optionA.choose();
 	showOptions();
 }
